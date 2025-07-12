@@ -38,9 +38,9 @@ fi
 # Валидация аргументов
 [[ "$PREFIX" = "NOT_SET" ]] && { printUsage; exit 1; }
 [[ ! -e /sys/class/net/$INTERFACE ]] && { echo "Interface $INTERFACE is not exists."; printUsage; exit 1; }
-validateByRegexp "$SUBNET_ARG" '^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "SUBNET arg must be in 0..255"
-validateByRegexp "$HOST_ARG" '^(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[1-9])$' "HOST arg must be in 1..254"
 validateByRegexp "$PREFIX" '^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "PREFIX arg must be IPv4 type"
+[[ "$SUBNET_ARG" != "NOT_SET" ]] && { validateByRegexp "$SUBNET_ARG" '^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "SUBNET arg must be in 0..255"; }
+[[ "$HOST_ARG" != "NOT_SET" ]] && { validateByRegexp "$HOST_ARG" '^(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "HOST arg must be in 1..254"; }
 
 # Выставление значений по умолчанию для SUBNET в случае, если аргумент не задан явно
 SUBNET_START=$SUBNET_ARG
