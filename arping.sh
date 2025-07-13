@@ -17,7 +17,7 @@ function printUsage() {
 # Принимает 3 аргумента: проверяемый параметр, регулярка, сообщение об ошибке
 function validateByRegexp() {
 
-     	[[ $# -ne 3 ]] && { echo "Error in 'validateByRegext' func. Must be 3 args."; exit 1;  }
+	[[ $# -ne 3 ]] && { echo "Error in 'validateByRegext' func. Must be 3 args."; exit 1;  }
 
 	local value="$1"	
 	local pattern="$2"
@@ -36,11 +36,11 @@ if [ "$username" != "$ROOTUSER" ] ; then
 fi
 
 # Валидация аргументов
-[[ "$PREFIX" = "NOT_SET" ]] && { printUsage; exit 1; }
+[[ "$PREFIX" == "NOT_SET" ]] && { printUsage; exit 1; }
 [[ ! -e /sys/class/net/$INTERFACE ]] && { echo "Interface $INTERFACE is not exists."; printUsage; exit 1; }
 validateByRegexp "$PREFIX" '^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "PREFIX arg must be IPv4 type"
-[[ "$SUBNET_ARG" != "NOT_SET" ]] && { validateByRegexp "$SUBNET_ARG" '^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "SUBNET arg must be in 0..255"; }
-[[ "$HOST_ARG" != "NOT_SET" ]] && { validateByRegexp "$HOST_ARG" '^(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "HOST arg must be in 1..254"; }
+[[ "$SUBNET_ARG" == "NOT_SET" ]] || { validateByRegexp "$SUBNET_ARG" '^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "SUBNET arg must be in 0..255"; }
+[[ "$HOST_ARG" == "NOT_SET" ]] || { validateByRegexp "$HOST_ARG" '^(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$' "HOST arg must be in 1..254"; }
 
 # Выставление значений по умолчанию для SUBNET в случае, если аргумент не задан явно
 SUBNET_START=$SUBNET_ARG
